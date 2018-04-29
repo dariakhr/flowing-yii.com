@@ -2,30 +2,61 @@
 namespace app\controllers;
 
 use yii\web\Controller;
-use app\models\NewCategoryForm;
-
+use yii\helpers\VarDumper;
+use app\models\Categorys;
 use Yii;
+
+
 class CategoryController extends Controller{
   public $layout = 'basic';
 
-  public function actionNewCategory() {
+  public function actionNew() {
     $this -> view -> title = 'New Category';
-    $model = new NewCategoryForm;
-    return $this -> render('new_category.php', ['model' => $model]);
+    $model = new Categorys();
+    return $this -> render('new.php', ['model' => $model]);
   }
   public function actionCreate() {
-    $model = new NewCategoryForm();
-    if ($model -> load(Yii::$app -> request -> get())) {
-        Yii::$app -> session -> setFlash('Congrats! New category created)!');
-        $model -> save();
-      }else {
-        Yii::$app -> session -> setFlash('Error, category not created');
-      }
-      return $this -> redirect('index.php?r=goods/new-category');
+    var_dump($_POST);
+    $model = new Categorys();
+    $model -> title = $_POST['Categorys']['title'];
+    $model -> position = $_POST['Categorys']['position'];
+    $model -> is_visible = $_POST['Categorys']['is_visible'];
+    if ($model -> save()) {
+          return $this -> redirect('/categorys');
+        } else {
+          return $this -> redirect('new', compact('model'));
+        }
     }
 
-    public function actionIndex(){
-      return $this -> render('index');
+    public function actionIndex($order = NULL){
+      if (!$order) {
+        $categorys = Categorys::find() -> all();
+      }else {
+        switch ($order) {
+          case 'active':
+            $categorys =  Categorys::find() -> where(['is_visible' => 1])-> all();
+            break;
+          case 'newest':
+            $categorys =  Categorys::find() -> orderBy('created_at DESC')-> all();
+            break;
+          case 'by_title_asc':
+            $categorys =  Categorys::find() -> orderBy('title ASC')-> all();
+            break;
+          case 'by_title_desc':
+            $categorys =  Categorys::find() -> orderBy('title DESC')-> all();
+            break;
+
+
+        }
+      }
+
+      return $this -> render('index', compact('categorys'));
+    }
+
+    public function actionDelete($id) {
+      $category= Categorys::findOne($id) -> delete();
+      return $this -> redirect('/categorys');
+
     }
 
 }

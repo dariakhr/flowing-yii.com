@@ -58,7 +58,7 @@ $config = [
               '<controller>/edit/<id:\d+>' => '<controller>/edit',
               'PATCH <controller>/<id:\d+>' => '<controller>/update',
               'PUT <controller>/<id:\d+>' => '<controller>/update',
-              'DELETE <controller>/<id:\d+>' => '<controller>/delete',
+              'POST <controller>/delete/<id:\d+>' => '<controller>/delete',
               'POST <controller>' => '<controller>/create',
 
 
