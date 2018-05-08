@@ -7,7 +7,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'layout' => 'main',
+    'layout' => 'basic',
     'language' => 'ru',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -24,6 +24,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['user/enter']
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -35,6 +36,17 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+        'mail' => [
+          'class' => 'yii\swiftmailer\Mailer',
+          'transport' => [
+            'class' => 'Swift_SmtpTransport',
+            'host' => 'smtp.sendgrid.net',
+            'username' => 'apikey',
+            'password' => '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',
+            'port' => '587',
+            'encryption' => 'tls',
+          ]
+         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

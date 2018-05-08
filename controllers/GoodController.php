@@ -14,6 +14,7 @@ public function actionNewGood() {
   $model = new NewGoodForm;
   return $this -> render('new_good.php', ['model' => $model]);
 }
+
 public function actionCreate() {
   $model = new NewGoodForm();
   if ($model -> load(Yii::$app -> request -> get())) {

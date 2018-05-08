@@ -25,6 +25,12 @@ $model = new Recalls;
     <header class="content">
       <div class="row">
         <div class="col-xs-12 header">
+          <?php if (Yii::$app->user->isGuest): ?>
+            <a href="/user/enter">Vhod</a>
+            <a href="/user/new">Registration</a>
+          <?php else: ?>
+            <a href="/user/logout">Vyhod</a>
+        <?php endif; ?>
         </div>
       </div>
       <div class="container text-center">
@@ -77,6 +83,24 @@ $model = new Recalls;
         </div>
       </div>
     </header>
+
+    <?php if (Yii::$app -> session -> hasFlash('success')) :?>
+    <div class="alert alert-success alert-dismissible mt-20" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <?= Yii::$app -> session -> getFlash('success'); ?>
+    </div>
+  <?php endif; ?>
+  <?php if (Yii::$app -> session -> hasFlash('error')) :?>
+    <div class="alert alert-danger alert-dismissible mt-20" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <?= Yii::$app -> session -> getFlash('error'); ?>
+    </div>
+  <?php endif; ?>
+
     <?= $content ?>
     <footer class="mt-40">
       <div class="row footer" id="fot">

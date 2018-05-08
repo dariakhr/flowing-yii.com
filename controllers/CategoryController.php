@@ -4,17 +4,34 @@ namespace app\controllers;
 use yii\web\Controller;
 use yii\helpers\VarDumper;
 use app\models\Categorys;
+use yii\filters\AccessControl;
 use Yii;
 
 
 class CategoryController extends Controller{
   public $layout = 'basic';
+  public  function behaviors(){
+    return [
+      'access' => [
+        'class' => AccessControl::className(),
+        'only' => ['new', 'delete', 'create'],
+        'rules' => [
+          [
+            'allow' => true,
+            'actions' => ['new', 'delete', 'create'],
+            'roles' => ['@']
+          ],
+        ]
+      ]
+    ];
+  }
 
   public function actionNew() {
     $this -> view -> title = 'New Category';
     $model = new Categorys();
     return $this -> render('new.php', ['model' => $model]);
   }
+
   public function actionCreate() {
     var_dump($_POST);
     $model = new Categorys();
@@ -30,7 +47,7 @@ class CategoryController extends Controller{
 
     public function actionIndex($order = NULL){
       if (!$order) {
-        $categorys = Categorys::find() -> all();
+        $categorys = Categorys::find()-> where(['is_visible' => 1]) -> all();
       }else {
         switch ($order) {
           case 'active':
@@ -58,5 +75,11 @@ class CategoryController extends Controller{
       return $this -> redirect('/categorys');
 
     }
+   //  public function actionShow($id) {
+   //  $categorys = Categorys::AllCategorys();
+   //  $goods = Goods::find() -> where(['category_id' => $id]) -> all();
+   //  return $this -> render('/page/catalog', compact('goods', 'categorys'));
+   //
+   // }
 
 }

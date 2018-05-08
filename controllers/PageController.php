@@ -4,6 +4,9 @@ namespace app\controllers;
 use yii\web\Controller;
 use app\models\NewCategoryForm;
 use app\models\NewGoodForm;
+use app\models\Goods;
+use app\models\Categorys;
+
 
 use Yii;
 class PageController extends Controller{
@@ -12,21 +15,27 @@ class PageController extends Controller{
   public function actionLanding(){
     return $this -> render('landing', ['id' => '242']);
   }
+
   public function actionIndex(){
     return 'hello';
   }
+
   public function actionShow(){
     return 'show';
   }
+
   public function actionNew(){
     return 'new';
   }
+
   public function actionEdit(){
     return 'edit';
   }
+
   public function actionUpdate(){
     return 'hello, i am update';
   }
+
   public function actionDelete(){
     return 'hello, i am delete';
   }
@@ -45,6 +54,8 @@ class PageController extends Controller{
 
    public function actionCatalog(){
      $this -> view -> title = 'catalog';
+     //  $goods = new Goods;
+     // $goods = Goods::find() -> all();
      return $this -> render('catalog');
    }
 
